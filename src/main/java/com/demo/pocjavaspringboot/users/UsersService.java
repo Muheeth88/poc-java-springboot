@@ -1,5 +1,6 @@
 package com.demo.pocjavaspringboot.users;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.demo.pocjavaspringboot.users.dtos.CreateUserDto;
@@ -9,17 +10,21 @@ public class UsersService {
 
     // @Autowired private UsersRepository usersRepository; // Alternative to create constructor
     private final UsersRepository usersRepository;
-    public UsersService(UsersRepository usersRepository) {
+    private final ModelMapper modelMapper;  
+    public UsersService(UsersRepository usersRepository, ModelMapper modelMapper) {
         this.usersRepository = usersRepository;
+        this.modelMapper = modelMapper;
     }
 
     // Create User
     public UserEntity createUser(CreateUserDto req) {
-        var newUser = UserEntity.builder()
-            .userName(req.getUserName())
-            .email(req.getEmail())
-            // .password(req.getPassword())
-            .build();
+        UserEntity newUser = modelMapper.map(req, UserEntity.class);
+        // ----------------- if not used modelmapper, follow below method   
+        // var newUser = UserEntity.builder()
+        //     .userName(req.getUserName())
+        //     .email(req.getEmail())
+        //     // .password(req.getPassword())
+        //     .build();
         
         return usersRepository.save(newUser);
     }
@@ -36,7 +41,7 @@ public class UsersService {
     }
 
     // Get My Profile
-    public UserEntity getMyProfile(String userName, String password) {
+    public UserEntity loginUser(String userName, String password) {
         return usersRepository.findByUserName(userName)
             .orElseThrow(() -> new UserNotFoundException(userName));
     }   

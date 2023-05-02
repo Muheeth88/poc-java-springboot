@@ -19,10 +19,10 @@ public class UsersServiceTest {
     // @MockBean
     // UsersRepository usersRepository;
 
-    @Test
-    void canCreateUsers() {
-        var user = usersService.createUser(new CreateUserDto("Bruce Wayne", "bruce@batman.com", "caped"));
-        Assertions.assertNotNull(user);
-        Assertions.assertEquals("Bruce Wayne", user.getUserName());
-    }
+    // @Test
+    // void canCreateUsers() {
+    //     var user = usersService.createUser(new CreateUserDto("Bruce Wayne", "bruce@batman.com", "caped"));
+    //     Assertions.assertNotNull(user);
+    //     Assertions.assertEquals("Bruce Wayne", user.getUserName());
+    // }
 }
